@@ -7,6 +7,12 @@ enum ComponentType
 	Transform
 };
 
+enum HitboxType
+{
+	Ally,
+	Enemy
+};
+
 class Entity;
 class Components
 {
@@ -128,6 +134,7 @@ public:
 private:
 	bool isSpriteHitbox;
 	bool isStatic;
+	HitboxType type;
 };
 
 class HealthComponent : public Components

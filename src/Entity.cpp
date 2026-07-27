@@ -13,6 +13,7 @@ void ProjectileEntity::Init(sf::Vector2f _pos, sf::Angle _angle)
 	graph->GetSprite()->setRotation(_angle);
 	lifeTime = 5.0f;
 	damage = 30;
+	isActive = true;
 }
 
 void ProjectileEntity::Update(float _deltaTime)
@@ -41,6 +42,7 @@ void EnemyEntity::Init()
 
 	HitboxComponent* hitbox = new HitboxComponent(*this, false);
 	AddComponent(hitbox);
+	isActive = true;
 }
 
 void EnemyEntity::Update(float _deltaTime)
@@ -124,6 +126,7 @@ void CellEntity::Init(bool _hasCollider)
 	{
 		//HitboxComponent* hitbox = new HitboxComponent(*this,false);
 	}
+	isActive = true;
 }
 
 void MainVehicleEntity::Init(sf::Vector2i _mapSize)
