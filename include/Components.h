@@ -135,6 +135,7 @@ class HealthComponent : public Components
 public:
 	HealthComponent(Entity& _entity, float _health) :Components(_entity), health(_health) {};
 	void Damage(float _damage);
+ float GetHealth();
 private:
 	float health;
 };
