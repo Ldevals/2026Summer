@@ -35,7 +35,7 @@ void HitboxManager::Update()
 				
 				if (a.findIntersection(b))
 				{
-					//if(hitbox[i]->GetEntity())
+					//if(hitbox[i].type == hitbox[j].type)
 
 					float moveLeft = a.position.x + a.size.x - b.position.x;
 					float moveRight = b.position.x + b.size.x - a.position.x;
