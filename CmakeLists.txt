@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 4.2)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+
+
+#add_subdirectory("thirdParty/SFML-3.1.0")
+
+project(main)
+
+
+file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+
+add_executable(main "${MY_SOURCES}")
+
+target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/") 
+
+target_include_directories(main PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
+
+include(FetchContent)
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 3.1.0
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM)
+FetchContent_MakeAvailable(SFML)
+
+target_link_libraries(main PRIVATE
+    SFML::System
+    SFML::Window
+    SFML::Graphics
+    SFML::Audio
+    SFML::Network
+)
+#target_link_libraries(main PRIVATE profilerLib safeSave)
