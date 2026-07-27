@@ -209,3 +209,8 @@ void HealthComponent::Damage(float _damage)
 		GetEntity().isDead = true;
 	}
 }
+
+float HealthComponent::GetHealth()
+{
+ return health;
+}
