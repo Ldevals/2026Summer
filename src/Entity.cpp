@@ -84,18 +84,15 @@ void PlayerEntity::Init()
 	Event event;
 	event.eventType = EventType::VehicleHasArrived;
 	EventManager::GetInstance()->AddListener(event, this);
-	isSpawned = false;
+	isActive = false;
 }
 
 void PlayerEntity::Update(float _deltaTime)
 {
-	if (isSpawned)
-	{
-		pos = GetComponent<GraphicsComponent>()->GetSprite()->getPosition();
+	pos = GetComponent<GraphicsComponent>()->GetSprite()->getPosition();
 
-		sf::View view(pos, sf::Vector2f(window->getSize()));
-		window->setView(view);
-	}
+	sf::View view(pos, sf::Vector2f(window->getSize()));
+	window->setView(view);
 }
 
 void PlayerEntity::OnEvent(Event _event)
@@ -103,6 +100,7 @@ void PlayerEntity::OnEvent(Event _event)
 	switch (_event.eventType)
 	{
 	case EventType::VehicleHasArrived:
+		isActive = true;
 		break;
 	}
 
@@ -140,6 +138,7 @@ void MainVehicleEntity::Init(sf::Vector2i _mapSize)
 	AddComponent(hitbox);
 	movingSpeed = 20;
 	isStopped = false;
+	isActive = true;
 }
 
 void MainVehicleEntity::Update(float _deltaTime)

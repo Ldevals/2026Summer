@@ -27,6 +27,7 @@ public:
 
 	std::string name;
 	bool isDead = false;
+	bool isActive = true;
 private:
 	//sf::Texture texture;
 	sf::Vector2f velocity;
@@ -68,7 +69,6 @@ public:
 private:
 	sf::Vector2f pos;
 	sf::RenderTarget* window;
-	bool isSpawned;
 
 };
 

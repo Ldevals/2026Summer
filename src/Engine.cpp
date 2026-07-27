@@ -31,17 +31,17 @@ bool Engine::Initialize(sf::RenderTarget* _window)
 
 	// TODO create 1 "Player" entity and 2 "Mob" entities.
 	// Use "player_idle_01.png" (you can find it in CreajeuxEngine/WorkingDirectory) for graphics.
-	Entity* playerEntity = new PlayerEntity("player",_window);
+	Entity* playerEntity = new PlayerEntity("player", _window);
 	m_entities.push_back(playerEntity);
 
 	Entity* weaponEntity = new Entity("playerWeapon");
 	m_entities.push_back(weaponEntity);
-	
+
 
 	GraphicsComponent* weaponGraph = new GraphicsComponent(*weaponEntity, RESOURCES_PATH "gun.png");
 	weaponEntity->AddComponent(weaponGraph);
 
-	WeaponComponent* weapon = new WeaponComponent(*weaponEntity,playerEntity);
+	WeaponComponent* weapon = new WeaponComponent(*weaponEntity, playerEntity);
 	weaponEntity->AddComponent(weapon);
 
 	MainVehicleEntity* vehicle = new MainVehicleEntity("forteress", { 20,20 });
@@ -63,7 +63,7 @@ void Engine::Inputs(const std::vector<sf::Event>& _events, sf::Vector2i _mousePo
 				playerPos = player->GetPos();
 			}
 		}
-		EntityFactory::GetInstance()->CreateEntity<EnemyEntity>("Ennemy",playerPos);
+		EntityFactory::GetInstance()->CreateEntity<EnemyEntity>("Ennemy", playerPos);
 	}
 	// TODO entities process inputs
 	for (Entity* entity : m_entities)
@@ -81,21 +81,23 @@ void Engine::Update(const float _deltaTime)
 	// TODO update entities
 	for (Entity* entity : m_entities)
 	{
-		//std::cout << entity->name << std::endl;
-		entity->Update(_deltaTime);
-		for (Components* component : entity->GetComponents())
+		if (entity->isActive)
 		{
-			component->Update(_deltaTime);
-
+			//std::cout << entity->name << std::endl;
+			entity->Update(_deltaTime);
+			for (Components* component : entity->GetComponents())
+			{
+				component->Update(_deltaTime);
+			}
 		}
 	}
-	for (int i=0; i< m_entities.size();i++)
+	for (int i = 0; i < m_entities.size();i++)
 	{
 		if (m_entities[i]->isDead)
 		{
 			std::cout << "killed" << m_entities[i]->name << std::endl;
-				delete m_entities[i];
-			m_entities.erase(m_entities.begin()+i);
+			delete m_entities[i];
+			m_entities.erase(m_entities.begin() + i);
 		}
 	}
 	HitboxManager::GetInstance()->Update();
@@ -107,10 +109,12 @@ void Engine::Render(sf::RenderTarget& _rt)
 	MapManager::GetInstance()->Render(_rt);
 	for (Entity* entity : m_entities)
 	{
-		for (Components* component : entity->GetComponents())
+		if (entity->isActive)
 		{
-			component->Render(_rt);
-
+			for (Components* component : entity->GetComponents())
+			{
+				component->Render(_rt);
+			}
 		}
 	}
 }
