@@ -176,6 +176,7 @@ void HitboxComponent::Init()
 	isSpriteHitbox = true;
 	std::cout << "initHitbox" << std::endl;
 	HitboxManager::GetInstance()->AddHitbox(this);
+ isFriendlyColliding =true;
 }
 
 void HitboxComponent::Move(sf::Vector2f _correction)
