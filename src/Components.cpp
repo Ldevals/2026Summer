@@ -176,6 +176,7 @@ void HitboxComponent::Init()
 	isSpriteHitbox = true;
 	std::cout << "initHitbox" << std::endl;
 	HitboxManager::GetInstance()->AddHitbox(this);
+ isFriendlyColliding =true;
 }
 
 void HitboxComponent::Move(sf::Vector2f _correction)
@@ -208,4 +209,14 @@ void HealthComponent::Damage(float _damage)
 	{
 		GetEntity().isDead = true;
 	}
+}
+
+void setFriendlyColliding(bool _isColliding)
+{
+ isFriendlyColliding = _isColliding;
+}
+
+float HealthComponent::GetHealth()
+{
+ return health;
 }

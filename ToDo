@@ -1,0 +1,5 @@
+modifier le systeme de collision pour que les balles fassent des degats au ennemies
+
+faire systeme de collision Ally/Enemy/Neutral 
+avec un booleen qui précise si le meme camps peut 
+collider entre eux, et collide si les deux sont true

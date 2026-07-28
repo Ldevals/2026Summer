@@ -9,9 +9,11 @@ enum ComponentType
 
 enum HitboxType
 {
-	Ally,
-	Enemy
+ Ally,
+ Enemy,
+ Neutral
 };
+
 
 class Entity;
 class Components
@@ -122,7 +124,7 @@ private:
 class HitboxComponent : public Components
 {
 public:
-	HitboxComponent(Entity& _entity,bool _isStatic) :Components(_entity), isStatic(_isStatic)
+	HitboxComponent(Entity& _entity, HitboxType _type, bool _isStatic) :Components(_entity), isStatic(_isStatic), type(_type)
 	{
 		Init();
 	};
@@ -131,10 +133,12 @@ public:
 	void Move(sf::Vector2f _correction);
 	void Update(float _dt) override;
 	sf::FloatRect GetHitbox();
+ void setFriendlyColliding(bool _isColliding);
 private:
 	bool isSpriteHitbox;
 	bool isStatic;
-	HitboxType type;
+ bool is FriendlyColliding;
+ HitboxType type;
 };
 
 class HealthComponent : public Components
@@ -142,6 +146,7 @@ class HealthComponent : public Components
 public:
 	HealthComponent(Entity& _entity, float _health) :Components(_entity), health(_health) {};
 	void Damage(float _damage);
+ float GetHealth();
 private:
 	float health;
 };
