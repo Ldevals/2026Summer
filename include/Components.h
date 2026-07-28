@@ -7,6 +7,14 @@ enum ComponentType
 	Transform
 };
 
+enum HitboxType
+{
+ Ally,
+ Enemy,
+ Neutral
+};
+
+
 class Entity;
 class Components
 {
@@ -116,7 +124,7 @@ private:
 class HitboxComponent : public Components
 {
 public:
-	HitboxComponent(Entity& _entity,bool _isStatic) :Components(_entity), isStatic(_isStatic)
+	HitboxComponent(Entity& _entity, HitboxType _type, bool _isStatic) :Components(_entity), isStatic(_isStatic), type(_type)
 	{
 		Init();
 	};
@@ -128,6 +136,8 @@ public:
 private:
 	bool isSpriteHitbox;
 	bool isStatic;
+ bool is FriendlyColliding;
+ HitboxType type;
 };
 
 class HealthComponent : public Components
