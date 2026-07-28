@@ -210,6 +210,11 @@ void HealthComponent::Damage(float _damage)
 	}
 }
 
+void setFriendlyColliding(bool _isColliding)
+{
+ isFriendlyColliding = _isColliding;
+}
+
 float HealthComponent::GetHealth()
 {
  return health;
