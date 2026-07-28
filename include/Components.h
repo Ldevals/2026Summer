@@ -9,9 +9,12 @@ enum ComponentType
 
 enum HitboxType
 {
- Ally,
- Enemy,
- Neutral
+	Ally,
+	Enemy,
+	Neutral,
+	AllyDamageable,
+	EnemyDamageable,
+	Projectile
 };
 
 
@@ -37,8 +40,8 @@ public:
 	GraphicsComponent(Entity& _entity, std::string _texturePath) : Components(_entity), texturePath(_texturePath)
 	{
 		Init(_texturePath);
-		
-		
+
+
 	}
 	void Init(std::string _texturePath);
 	sf::Sprite* GetSprite();
@@ -54,13 +57,13 @@ private:
 	sf::Texture* texture;
 	sf::Sprite* sprite;
 	sf::Vector2i spriteSize;
-	
+
 };
 
 class AnimationComponent : public Components
 {
 public:
-	AnimationComponent(Entity& _entity,int _totalFrame) : Components(_entity),totalFrame(_totalFrame)
+	AnimationComponent(Entity& _entity, int _totalFrame) : Components(_entity), totalFrame(_totalFrame)
 	{
 		Init(_entity);
 	}
@@ -91,7 +94,7 @@ private:
 class WeaponComponent : public Components
 {
 public:
-	WeaponComponent(Entity& _entity, Entity* _owner):Components(_entity)
+	WeaponComponent(Entity& _entity, Entity* _owner) :Components(_entity)
 	{
 		Init(_entity);
 		owner = _owner;
@@ -133,12 +136,15 @@ public:
 	void Move(sf::Vector2f _correction);
 	void Update(float _dt) override;
 	sf::FloatRect GetHitbox();
- void setFriendlyColliding(bool _isColliding);
+	void SetFriendlyColliding(bool _isColliding);
+	bool GetFriendlyColliding();
+	HitboxType GetType();
+	bool GetStatic();
 private:
 	bool isSpriteHitbox;
 	bool isStatic;
- bool is FriendlyColliding;
- HitboxType type;
+	bool isFriendlyColliding;
+	HitboxType type;
 };
 
 class HealthComponent : public Components
@@ -146,7 +152,7 @@ class HealthComponent : public Components
 public:
 	HealthComponent(Entity& _entity, float _health) :Components(_entity), health(_health) {};
 	void Damage(float _damage);
- float GetHealth();
+	float GetHealth();
 private:
 	float health;
 };
@@ -162,7 +168,7 @@ private:
 class CellComponent : public Components
 {
 public:
-	CellComponent(Entity& _entity):Components(_entity){}
+	CellComponent(Entity& _entity) :Components(_entity) {}
 	void Init();
 private:
 

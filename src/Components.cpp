@@ -202,6 +202,26 @@ sf::FloatRect HitboxComponent::GetHitbox()
 	return sf::FloatRect(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f));
 }
 
+void HitboxComponent::SetFriendlyColliding(bool _isColliding)
+{
+	isFriendlyColliding = _isColliding;
+}
+
+bool HitboxComponent::GetFriendlyColliding()
+{
+	return isFriendlyColliding;
+}
+
+HitboxType HitboxComponent::GetType()
+{
+	return type;
+}
+
+bool HitboxComponent::GetStatic()
+{
+	return isStatic;
+}
+
 void HealthComponent::Damage(float _damage)
 {
 	health -= _damage;
@@ -211,10 +231,6 @@ void HealthComponent::Damage(float _damage)
 	}
 }
 
-void setFriendlyColliding(bool _isColliding)
-{
- isFriendlyColliding = _isColliding;
-}
 
 float HealthComponent::GetHealth()
 {
