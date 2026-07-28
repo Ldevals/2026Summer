@@ -133,6 +133,7 @@ public:
 	void Move(sf::Vector2f _correction);
 	void Update(float _dt) override;
 	sf::FloatRect GetHitbox();
+ void setFriendlyColliding(bool _isColliding);
 private:
 	bool isSpriteHitbox;
 	bool isStatic;
