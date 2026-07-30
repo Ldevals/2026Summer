@@ -9,12 +9,13 @@ enum ComponentType
 
 enum HitboxType
 {
-	Ally,
+	Ally, //joueur 
 	Enemy,
-	Neutral,
-	AllyDamageable,
-	EnemyDamageable,
-	Projectile
+	Neutral, //exemple: collision d'un mur
+	AllyDamageable, //pour les armes de melée
+	EnemyDamageable, //pour les armes de melée
+	AllyProjectile, // a supprimer dès la premiere collision
+	EnemyProjectile // a supprimer dès la premiere collision
 };
 
 

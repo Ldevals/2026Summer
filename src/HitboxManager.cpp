@@ -44,10 +44,16 @@ void HitboxManager::Update()
 							//fonction de calcul de collision
 						}
 					}
+					if (hitbox[i]->GetType() == HitboxType::AllyProjectile || hitbox[i]->GetType() == HitboxType::EnemyProjectile)
+					{
+
+					}
+
 					if (hitbox[i]->GetType() == HitboxType::Neutral || hitbox[j]->GetType() == HitboxType::Neutral)
 					{
 
 					}
+
 					{
 						switch (hitbox[i]->GetType())
 						{
@@ -90,6 +96,5 @@ void HitboxManager::Update()
 				}
 			}
 		}
-
 	}
 }
