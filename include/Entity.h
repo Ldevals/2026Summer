@@ -32,7 +32,8 @@ public:
 private:
 	//sf::Texture texture;
 	sf::Vector2f velocity;
-
+ sf::Vector2f position;
+ bool isCameraTarget = false;
 	std::vector<Components*> components;
 };
 
