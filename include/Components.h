@@ -9,13 +9,19 @@ enum ComponentType
 
 enum HitboxType
 {
-	Ally, //joueur 
-	Enemy,
-	Neutral, //exemple: collision d'un mur
 	AllyDamageable, //pour les armes de melée
 	EnemyDamageable, //pour les armes de melée
 	AllyProjectile, // a supprimer dès la premiere collision
-	EnemyProjectile // a supprimer dès la premiere collision
+	EnemyProjectile, // a supprimer dès la premiere collision
+	Body,
+	Projectile
+};
+
+enum Team
+{
+	Ally,
+	Enemy,
+	Neutral
 };
 
 
@@ -128,7 +134,8 @@ private:
 class HitboxComponent : public Components
 {
 public:
-	HitboxComponent(Entity& _entity, HitboxType _type, bool _isStatic) :Components(_entity), isStatic(_isStatic), type(_type)
+	HitboxComponent(Entity& _entity, HitboxType _type,Team _team, bool _isStatic) :Components(_entity), 
+		isStatic(_isStatic), type(_type), team(_team)
 	{
 		Init();
 	};
@@ -146,6 +153,7 @@ private:
 	bool isStatic;
 	bool isFriendlyColliding;
 	HitboxType type;
+	Team team;
 };
 
 class HealthComponent : public Components

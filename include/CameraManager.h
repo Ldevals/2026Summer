@@ -1,3 +1,4 @@
+#pragma once
 #include "common.h"
 
 
@@ -14,5 +15,5 @@ private:
 
 	static CameraManager* instance;
 	sf::Vector2f* target;
-	sf::RenderTarget* window;
+	static sf::RenderTarget* window;
 };

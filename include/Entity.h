@@ -16,7 +16,7 @@ public:
 
 	void AddComponent(Components* _component);
 	const std::vector<Components*>& GetComponents() const { return components; }
-
+	void UpdateCameraTarget();
 	template<typename T>
 	T* GetComponent() const
 	{
@@ -29,11 +29,11 @@ public:
 	std::string name;
 	bool isDead = false;
 	bool isActive = true;
+	bool isCameraTarget = false;
+	sf::Vector2f position;
 private:
 	//sf::Texture texture;
 	sf::Vector2f velocity;
- sf::Vector2f position;
- bool isCameraTarget = false;
 	std::vector<Components*> components;
 };
 
@@ -60,7 +60,7 @@ public:
 class PlayerEntity : public Entity, public EventListener
 {
 public:
-	PlayerEntity(std::string _name,sf::RenderTarget* _window) : Entity(_name), window(_window)
+	PlayerEntity(std::string _name, sf::RenderTarget* _window) : Entity(_name), window(_window)
 	{
 		Init();
 	}
@@ -92,7 +92,7 @@ private:
 class CellEntity : public Entity
 {
 public:
-	CellEntity(std::string _name, bool _hasCollider):Entity(_name)
+	CellEntity(std::string _name, bool _hasCollider) :Entity(_name)
 	{
 		Init(_hasCollider);
 	}
@@ -105,7 +105,7 @@ private:
 class MainVehicleEntity : public Entity
 {
 public:
-	MainVehicleEntity(std::string _name,sf::Vector2i _mapSize) :Entity(_name)
+	MainVehicleEntity(std::string _name, sf::Vector2i _mapSize) :Entity(_name)
 	{
 		Init(_mapSize);
 	}

@@ -1,8 +1,18 @@
 #include "Entity.h"
-
+#include "CameraManager.h"
 void Entity::AddComponent(Components* _component)
 {
 	components.push_back(_component);
+}
+
+void Entity::UpdateCameraTarget()
+{
+	if (isCameraTarget)
+	{
+		std::cout << "getting pos  "<<name<<"   old pos:"<<position.x<< std::endl;
+		position = GetComponent<GraphicsComponent>()->GetSprite()->getPosition();
+		std::cout << position.x << std::endl;
+	}
 }
 
 void ProjectileEntity::Init(sf::Vector2f _pos, sf::Angle _angle)
@@ -14,6 +24,7 @@ void ProjectileEntity::Init(sf::Vector2f _pos, sf::Angle _angle)
 	lifeTime = 5.0f;
 	damage = 30;
 	isActive = true;
+	isCameraTarget = false;
 }
 
 void ProjectileEntity::Update(float _deltaTime)
@@ -40,9 +51,11 @@ void EnemyEntity::Init()
 	graph->SetSpriteSize(sf::Vector2i(192, 192));
 	speed = 50;
 
-	HitboxComponent* hitbox = new HitboxComponent(*this, false);
+	HitboxComponent* hitbox = new HitboxComponent(*this,HitboxType::Body,Team::Enemy, false);
 	AddComponent(hitbox);
 	isActive = true;
+	isCameraTarget = false;
+
 }
 
 void EnemyEntity::Update(float _deltaTime)
@@ -80,13 +93,14 @@ void PlayerEntity::Init()
 	ControllerComponent* controller = new ControllerComponent(*this);
 	AddComponent(controller);
 
-	HitboxComponent* hitbox = new HitboxComponent(*this, false);
+	HitboxComponent* hitbox = new HitboxComponent(*this, HitboxType::Body, Team::Ally, false);
 	AddComponent(hitbox);
 
 	Event event;
 	event.eventType = EventType::VehicleHasArrived;
 	EventManager::GetInstance()->AddListener(event, this);
 	isActive = false;
+	isCameraTarget = false;
 }
 
 void PlayerEntity::Update(float _deltaTime)
@@ -103,6 +117,8 @@ void PlayerEntity::OnEvent(Event _event)
 	{
 	case EventType::VehicleHasArrived:
 		isActive = true;
+		isCameraTarget = true;
+		CameraManager::GetInstance()->SetTarget(&position);
 		break;
 	}
 
@@ -127,6 +143,8 @@ void CellEntity::Init(bool _hasCollider)
 		//HitboxComponent* hitbox = new HitboxComponent(*this,false);
 	}
 	isActive = true;
+	isCameraTarget = false;
+
 }
 
 void MainVehicleEntity::Init(sf::Vector2i _mapSize)
@@ -137,11 +155,12 @@ void MainVehicleEntity::Init(sf::Vector2i _mapSize)
 	GraphicsComponent* graph = new GraphicsComponent(*this, RESOURCES_PATH "vehicle.png");
 	graph->GetSprite()->setPosition(spawnPoint);
 	AddComponent(graph);
-	HitboxComponent* hitbox = new HitboxComponent(*this, true);
+	HitboxComponent* hitbox = new HitboxComponent(*this, HitboxType::Body, Team::Ally, true);
 	AddComponent(hitbox);
 	movingSpeed = 20;
 	isStopped = false;
 	isActive = true;
+	isCameraTarget = true;
 }
 
 void MainVehicleEntity::Update(float _deltaTime)
@@ -153,6 +172,7 @@ void MainVehicleEntity::Update(float _deltaTime)
 	else if (!isStopped)
 	{
 		isStopped = true;
+		isCameraTarget = false;
 		Event event;
 		event.eventType = EventType::VehicleHasArrived;
 		EventManager::GetInstance()->Broadcast(event);

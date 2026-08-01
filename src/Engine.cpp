@@ -4,6 +4,8 @@
 #include "MapManager.h"
 #include "RessourceManager.h"
 #include "EventManager.h"
+#include "CameraManager.h"
+
 Engine* Engine::instance = nullptr;
 
 bool Engine::CreateInstance()
@@ -26,6 +28,7 @@ bool Engine::Initialize(sf::RenderTarget* _window)
 	MapManager::CreateInstance();
 	RessourceManager::CreateInstance();
 	EventManager::CreateInstance();
+	CameraManager::CreateInstance(_window);
 
 	MapManager::GetInstance()->GenerateMap({ 20,20 });
 
@@ -43,9 +46,11 @@ bool Engine::Initialize(sf::RenderTarget* _window)
 
 	WeaponComponent* weapon = new WeaponComponent(*weaponEntity, playerEntity);
 	weaponEntity->AddComponent(weapon);
+	weaponEntity->isCameraTarget = false;
 
 	MainVehicleEntity* vehicle = new MainVehicleEntity("forteress", { 20,20 });
 	m_entities.push_back(vehicle);
+	CameraManager::GetInstance()->SetTarget(&vehicle->position);
 
 	return true;
 }
@@ -90,6 +95,10 @@ void Engine::Update(const float _deltaTime)
 				component->Update(_deltaTime);
 			}
 		}
+		if (entity->isCameraTarget)
+		{
+			entity->UpdateCameraTarget();
+		}
 	}
 	for (int i = 0; i < m_entities.size();i++)
 	{
@@ -101,6 +110,7 @@ void Engine::Update(const float _deltaTime)
 		}
 	}
 	HitboxManager::GetInstance()->Update();
+	CameraManager::GetInstance()->Update(_deltaTime);
 }
 
 void Engine::Render(sf::RenderTarget& _rt)

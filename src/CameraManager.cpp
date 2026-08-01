@@ -1,6 +1,8 @@
 #include "CameraManager.h"
 
 CameraManager* CameraManager::instance = nullptr;
+sf::RenderTarget* CameraManager::window = nullptr;
+//sf::RenderTarget* CameraManager::window = nullptr;
 
 void CameraManager::CreateInstance(sf::RenderTarget* _window)
 {
@@ -8,7 +10,7 @@ void CameraManager::CreateInstance(sf::RenderTarget* _window)
 	{
 		instance = new CameraManager();
 	}
-	CameraManager::window= _window;
+	window= _window;
 }
 
 CameraManager* CameraManager::GetInstance()
@@ -23,6 +25,7 @@ void CameraManager::SetTarget(sf::Vector2f* _target)
 
 void CameraManager::Update(float _dt)
 {
+	std::cout << target->x << "   " << target->y << std::endl;
 	sf::View view(*target, sf::Vector2f(window->getSize()));
 	window->setView(view);
 }

@@ -6,3 +6,9 @@ collider entre eux, et collide si les deux sont true
 
 ajouter dans le HitboxManager que quand un bullet touche qlq chose,
 il applique les degats si il y a un healthComponent et se détruit
+
+transformer les bulletComponents en BulletEntity
+ainsi que faire un weaponEntity
+
+Problème:
+l'arme ne vise plus correctement 

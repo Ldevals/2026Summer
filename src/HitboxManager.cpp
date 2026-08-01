@@ -49,30 +49,8 @@ void HitboxManager::Update()
 
 					}
 
-					if (hitbox[i]->GetType() == HitboxType::Neutral || hitbox[j]->GetType() == HitboxType::Neutral)
-					{
+					
 
-					}
-
-					{
-						switch (hitbox[i]->GetType())
-						{
-						case HitboxType::Ally:
-							switch (hitbox[j]->GetType())
-							{
-							case HitboxType::Ally:
-								if (hitbox[i]->GetFriendlyColliding() && hitbox[j]->GetFriendlyColliding())
-								{
-									//fonction de calcul de collision
-								}
-								break;
-							case HitboxType::Enemy:
-
-								break;
-							}
-							break;
-						}
-					}
 
 					float moveLeft = a.position.x + a.size.x - b.position.x;
 					float moveRight = b.position.x + b.size.x - a.position.x;
