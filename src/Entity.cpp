@@ -118,6 +118,7 @@ void PlayerEntity::OnEvent(Event _event)
 	case EventType::VehicleHasArrived:
 		isActive = true;
 		isCameraTarget = true;
+		GetComponent<GraphicsComponent>()->GetSprite()->setPosition({ _event.position.x - 50,_event.position.y });
 		CameraManager::GetInstance()->SetTarget(&position);
 		break;
 	}
@@ -175,6 +176,7 @@ void MainVehicleEntity::Update(float _deltaTime)
 		isCameraTarget = false;
 		Event event;
 		event.eventType = EventType::VehicleHasArrived;
+		event.position = GetComponent<GraphicsComponent>()->GetSprite()->getPosition();
 		EventManager::GetInstance()->Broadcast(event);
 	}
 }

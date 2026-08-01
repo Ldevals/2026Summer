@@ -35,6 +35,7 @@
             // everything works as intented.
 
             Engine::GetInstance()->Inputs(inputs,sf::Mouse::getPosition(*m_window));
+            
 
             const float deltaTime = m_clock.restart().asSeconds();
             Engine::GetInstance()->Update(deltaTime);

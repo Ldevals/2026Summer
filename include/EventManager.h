@@ -9,6 +9,7 @@ enum class EventType
 struct Event
 {
 	EventType eventType;
+	sf::Vector2f position = {0.0f,0.0f};
 
 };
 class EventListener

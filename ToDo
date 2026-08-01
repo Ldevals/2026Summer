@@ -12,3 +12,6 @@ ainsi que faire un weaponEntity
 
 Problème:
 l'arme ne vise plus correctement 
+Solution:
+je doit convertir la position du sprite en coordonées sur l'ecran plutot que dans l'espace 
+mais j'ai besoin de la fenetre pour ca
