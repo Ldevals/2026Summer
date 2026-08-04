@@ -104,7 +104,6 @@ void Engine::Update(const float _deltaTime)
 	{
 		if (m_entities[i]->isDead)
 		{
-			std::cout << "killed" << m_entities[i]->name << std::endl;
 			delete m_entities[i];
 			m_entities.erase(m_entities.begin() + i);
 		}

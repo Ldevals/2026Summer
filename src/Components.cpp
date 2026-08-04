@@ -176,7 +176,6 @@ float WeaponComponent::angleToCursor(sf::Vector2i _mousePos)
 void HitboxComponent::Init()
 {
 	isSpriteHitbox = true;
-	std::cout << "initHitbox" << std::endl;
 	HitboxManager::GetInstance()->AddHitbox(this);
  isFriendlyColliding =true;
 }

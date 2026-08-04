@@ -25,7 +25,6 @@ void CameraManager::SetTarget(sf::Vector2f* _target)
 
 void CameraManager::Update(float _dt)
 {
-	std::cout << target->x << "   " << target->y << std::endl;
 	sf::View view(*target, sf::Vector2f(window->getSize()));
 	window->setView(view);
 }

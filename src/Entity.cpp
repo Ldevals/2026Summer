@@ -9,9 +9,7 @@ void Entity::UpdateCameraTarget()
 {
 	if (isCameraTarget)
 	{
-		std::cout << "getting pos  "<<name<<"   old pos:"<<position.x<< std::endl;
 		position = GetComponent<GraphicsComponent>()->GetSprite()->getPosition();
-		std::cout << position.x << std::endl;
 	}
 }
 
