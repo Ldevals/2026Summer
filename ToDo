@@ -11,7 +11,5 @@ transformer les bulletComponents en BulletEntity
 ainsi que faire un weaponEntity
 
 Problème:
-l'arme ne vise plus correctement 
-Solution:
-je doit convertir la position du sprite en coordonées sur l'ecran plutot que dans l'espace 
-mais j'ai besoin de la fenetre pour ca
+les bullets de l'arme ne sorte pas au bon endroit en fonction de l'angle de tir
+penser a enlever l'include du CameraMnager.h quand le weapon est devenu une entité

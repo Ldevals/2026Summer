@@ -4,6 +4,7 @@
 #include "HitboxManager.h"
 #include "Components.h"
 #include "RessourceManager.h"
+#include "CameraManager.h"
 void GraphicsComponent::Init(std::string _texturePath)
 {
 
@@ -135,7 +136,8 @@ void WeaponComponent::Update(float _dt)
 
 void WeaponComponent::Inputs(const std::vector<sf::Event>& _events, sf::Vector2i _mousePos)
 {
-	angle = sf::radians(angleToCursor(_mousePos)).wrapUnsigned();
+	sf::Vector2f mouseWorldPos = CameraManager::GetInstance()->GetWorldPos(_mousePos);
+	angle = sf::radians(angleToCursor(sf::Vector2i(mouseWorldPos))).wrapUnsigned();
 	sprite->setRotation(angle);
 	if (angle.asDegrees() > 90 && angle.asDegrees() < 270)
 	{

@@ -29,3 +29,13 @@ void CameraManager::Update(float _dt)
 	sf::View view(*target, sf::Vector2f(window->getSize()));
 	window->setView(view);
 }
+
+sf::Vector2i CameraManager::GetScreenPos(sf::Vector2f _pos)
+{
+	return window->mapCoordsToPixel(_pos);
+}
+
+sf::Vector2f CameraManager::GetWorldPos(sf::Vector2i _pos)
+{
+	return window->mapPixelToCoords(_pos);
+}
