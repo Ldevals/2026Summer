@@ -12,7 +12,8 @@ enum HitboxType
 	AllyDamageable, //pour les armes de melée
 	EnemyDamageable, //pour les armes de melée
 	AllyProjectile, // a supprimer dès la premiere collision
-	EnemyProjectile, // a supprimer dès la premiere collision
+	EnemyProjectile,
+	// a supprimer dès la premiere collision
 	Body,
 	Projectile
 };
@@ -126,9 +127,10 @@ class DamageComponent : public Components
 {
 public:
 	DamageComponent(Entity& _entity) :Components(_entity) {};
-
+	void SetDamage(float _damage) { damage = _damage; };
+	float GetDamage() { return damage; }
 private:
-
+	float damage;
 };
 
 class HitboxComponent : public Components
@@ -147,6 +149,7 @@ public:
 	void SetFriendlyColliding(bool _isColliding);
 	bool GetFriendlyColliding();
 	HitboxType GetType();
+	Team GetTeam();
 	bool GetStatic();
 private:
 	bool isSpriteHitbox;

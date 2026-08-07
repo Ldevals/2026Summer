@@ -12,6 +12,9 @@ public:
 private:
 	HitboxManager(){}
 
+	void ResolveBodyToBody(HitboxComponent* _hitboxA, HitboxComponent* _hitboxB);
+	void ResolveProjectileToBody(HitboxComponent* _hitboxA, HitboxComponent* _hitboxB);
+	void ResolveCollision(HitboxComponent* _hitboxA, HitboxComponent* _hitboxB);
 	std::vector<HitboxComponent*> hitbox;
 	static HitboxManager* instance;
 };

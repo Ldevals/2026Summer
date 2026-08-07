@@ -17,10 +17,15 @@ void ProjectileEntity::Init(sf::Vector2f _pos, sf::Angle _angle)
 {
 	GraphicsComponent* graph = new GraphicsComponent(*this, RESOURCES_PATH "bullet.png");
 	AddComponent(graph);
+	HitboxComponent* hitbox = new HitboxComponent(*this, HitboxType::Projectile, Team::Ally, false);
+	AddComponent(hitbox);
+	DamageComponent* damage = new DamageComponent(*this);
+	damage->SetDamage(30);
+	AddComponent(damage);
 	graph->GetSprite()->setPosition(_pos);
 	graph->GetSprite()->setRotation(_angle);
 	lifeTime = 5.0f;
-	damage = 30;
+	ProjectileEntity::damage = 30;
 	isActive = true;
 	isCameraTarget = false;
 }
@@ -51,6 +56,13 @@ void EnemyEntity::Init()
 
 	HitboxComponent* hitbox = new HitboxComponent(*this,HitboxType::Body,Team::Enemy, false);
 	AddComponent(hitbox);
+
+	HealthComponent* health = new HealthComponent(*this, 100.0f);
+	AddComponent(health);
+
+	DamageComponent* damage = new DamageComponent(*this);
+	damage->SetDamage(30);
+	AddComponent(damage);
 	isActive = true;
 	isCameraTarget = false;
 

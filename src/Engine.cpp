@@ -100,6 +100,10 @@ void Engine::Update(const float _deltaTime)
 			entity->UpdateCameraTarget();
 		}
 	}
+
+	HitboxManager::GetInstance()->Update();
+	CameraManager::GetInstance()->Update(_deltaTime);
+	
 	for (int i = 0; i < m_entities.size();i++)
 	{
 		if (m_entities[i]->isDead)
@@ -108,8 +112,6 @@ void Engine::Update(const float _deltaTime)
 			m_entities.erase(m_entities.begin() + i);
 		}
 	}
-	HitboxManager::GetInstance()->Update();
-	CameraManager::GetInstance()->Update(_deltaTime);
 }
 
 void Engine::Render(sf::RenderTarget& _rt)

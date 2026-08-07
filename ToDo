@@ -1,15 +1,17 @@
+ajouter les texture de murs avec collision pour commencer a générer des batiments
+
+faire les dégats avec feedback de base
+
 modifier le systeme de collision pour que les balles fassent des degats au ennemies
-
-faire systeme de collision Ally/Enemy/Neutral 
-avec un booleen qui précise si le meme camps peut 
-collider entre eux, et collide si les deux sont true
-
-ajouter dans le HitboxManager que quand un bullet touche qlq chose,
-il applique les degats si il y a un healthComponent et se détruit
 
 transformer les bulletComponents en BulletEntity
 ainsi que faire un weaponEntity
 
+faire en sorte que les bullet s'instancie avec la team de l'instancieur
+et que les degats soit init par l'arme
+
 Problème:
 les bullets de l'arme ne sorte pas au bon endroit en fonction de l'angle de tir
 penser a enlever l'include du CameraMnager.h quand le weapon est devenu une entité
+
+le jeu crash quand le bullet est delete: la hitbox est encore dans le jeu mais plus l'entity

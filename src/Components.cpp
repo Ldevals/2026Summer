@@ -197,6 +197,7 @@ sf::FloatRect HitboxComponent::GetHitbox()
 {
 	if (isSpriteHitbox)
 	{
+		std::cout << "name  " << GetEntity().name << std::endl;
 		return GetEntity().GetComponent<GraphicsComponent>()->GetSprite()->getGlobalBounds();
 	}
 
@@ -216,6 +217,11 @@ bool HitboxComponent::GetFriendlyColliding()
 HitboxType HitboxComponent::GetType()
 {
 	return type;
+}
+
+Team HitboxComponent::GetTeam()
+{
+	return team;
 }
 
 bool HitboxComponent::GetStatic()
