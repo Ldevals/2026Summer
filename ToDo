@@ -10,8 +10,12 @@ ainsi que faire un weaponEntity
 faire en sorte que les bullet s'instancie avec la team de l'instancieur
 et que les degats soit init par l'arme
 
+faire en sorte que le parent conaissent ses enfants et puisse leur communiquer qu'il est mort pour qu'il se deletent a leur tour
+
+
 Problème:
 les bullets de l'arme ne sorte pas au bon endroit en fonction de l'angle de tir
 penser a enlever l'include du CameraMnager.h quand le weapon est devenu une entité
+enlever l'include Component.h dans engine quand le weapon est devenu une entité
 
 le jeu crash quand le bullet est delete: la hitbox est encore dans le jeu mais plus l'entity

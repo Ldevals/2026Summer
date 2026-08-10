@@ -31,7 +31,7 @@ class Components
 {
 public:
 	Components(Entity& _entity) : entity(_entity) {}
-
+	virtual ~Components() = default;
 	virtual void Update(float _deltaTime) {}
 	virtual void Inputs(const std::vector<sf::Event>& _events, sf::Vector2i _mousePos) {}
 	virtual void Render(sf::RenderTarget& _window) {}
@@ -162,11 +162,18 @@ private:
 class HealthComponent : public Components
 {
 public:
-	HealthComponent(Entity& _entity, float _health) :Components(_entity), health(_health) {};
+	HealthComponent(Entity& _entity, float _health) :Components(_entity), health(_health) ,hasCooldownDamage(false){};
 	void Damage(float _damage);
 	float GetHealth();
+	void SetCooldownImunity(bool _hasCooldownDamage);
+	void SetCooldownImunityTime(float _time);
+
+	void Update(float _deltaTime) override;
+
 private:
 	float health;
+	bool hasCooldownDamage;
+	float imunityTime;
 };
 
 class ProjectileComponent : public Components

@@ -41,11 +41,11 @@ bool Engine::Initialize(sf::RenderTarget* _window)
 	m_entities.push_back(weaponEntity);
 
 
-	GraphicsComponent* weaponGraph = new GraphicsComponent(*weaponEntity, RESOURCES_PATH "gun.png");
-	weaponEntity->AddComponent(weaponGraph);
+	GraphicsComponent* weaponGraph = weaponEntity->AddComponent<GraphicsComponent>(/**weaponEntity,*/ RESOURCES_PATH "gun.png");
+	//weaponEntity->AddComponent(weaponGraph);
 
-	WeaponComponent* weapon = new WeaponComponent(*weaponEntity, playerEntity);
-	weaponEntity->AddComponent(weapon);
+	WeaponComponent* weapon = weaponEntity->AddComponent<WeaponComponent>(/**weaponEntity,*/ playerEntity);
+	//weaponEntity->AddComponent(weapon);
 	weaponEntity->isCameraTarget = false;
 
 	MainVehicleEntity* vehicle = new MainVehicleEntity("forteress", { 20,20 });
@@ -73,7 +73,7 @@ void Engine::Inputs(const std::vector<sf::Event>& _events, sf::Vector2i _mousePo
 	// TODO entities process inputs
 	for (Entity* entity : m_entities)
 	{
-		for (Components* component : entity->GetComponents())
+		for (auto& component : entity->GetComponents())
 		{
 			component->Inputs(_events, _mousePos);
 
@@ -90,7 +90,7 @@ void Engine::Update(const float _deltaTime)
 		{
 			//std::cout << entity->name << std::endl;
 			entity->Update(_deltaTime);
-			for (Components* component : entity->GetComponents())
+			for (auto& component : entity->GetComponents())
 			{
 				component->Update(_deltaTime);
 			}
@@ -108,6 +108,8 @@ void Engine::Update(const float _deltaTime)
 	{
 		if (m_entities[i]->isDead)
 		{
+			std::cout << "deleting  " << m_entities[i]->name << std::endl;
+			HitboxManager::GetInstance()->RemoveHitbox(m_entities[i]->GetComponent<HitboxComponent>());
 			delete m_entities[i];
 			m_entities.erase(m_entities.begin() + i);
 		}
@@ -122,7 +124,7 @@ void Engine::Render(sf::RenderTarget& _rt)
 	{
 		if (entity->isActive)
 		{
-			for (Components* component : entity->GetComponents())
+			for (auto& component : entity->GetComponents())
 			{
 				component->Render(_rt);
 			}

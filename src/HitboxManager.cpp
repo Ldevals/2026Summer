@@ -21,6 +21,13 @@ void HitboxManager::AddHitbox(HitboxComponent* _hitbox)
 	hitbox.push_back(_hitbox);
 }
 
+void HitboxManager::RemoveHitbox(HitboxComponent* _hitbox)
+{
+	auto it = std::find(hitbox.begin(), hitbox.end(), _hitbox);
+	if (it != hitbox.end())
+		hitbox.erase(it);
+}
+
 void HitboxManager::Update()
 {
 	if (hitbox.size() > 0)
@@ -48,7 +55,7 @@ void HitboxManager::Update()
 					//	{
 					if (hitbox[i]->GetType() == HitboxType::Body && hitbox[j]->GetType() == HitboxType::Body)
 					{
-						ResolveBodyToBody(hitbox[i],hitbox[j]);
+						ResolveBodyToBody(hitbox[i], hitbox[j]);
 					}
 					else
 					{
@@ -72,18 +79,16 @@ void HitboxManager::ResolveBodyToBody(HitboxComponent* _hitboxA, HitboxComponent
 	else
 	{
 		//faire les degats vers le joueur
-
-		if (_hitboxA->GetTeam() == Team::Ally)
+		std::cout << _hitboxA->GetEntity().name << "  " << _hitboxB->GetEntity().name << std::endl;
+		if (_hitboxA->GetTeam() == Team::Enemy)
 		{
 			_hitboxB->GetEntity().GetComponent<HealthComponent>()->Damage
-			(_hitboxA->GetEntity().GetComponent<HealthComponent>()->GetHealth());
-			_hitboxA->GetEntity().isDead = true;
+			(_hitboxA->GetEntity().GetComponent<DamageComponent>()->GetDamage());
 		}
 		else
 		{
 			_hitboxA->GetEntity().GetComponent<HealthComponent>()->Damage
-			(_hitboxB->GetEntity().GetComponent<HealthComponent>()->GetHealth());
-			_hitboxB->GetEntity().isDead = true;
+			(_hitboxB->GetEntity().GetComponent<DamageComponent>()->GetDamage());
 		}
 
 		ResolveCollision(_hitboxA, _hitboxB);
@@ -99,7 +104,7 @@ void HitboxManager::ResolveProjectileToBody(HitboxComponent* _hitboxA, HitboxCom
 		//faire degats a l'entity qui contient la hitbox body
 
 		if (_hitboxA->GetType() == HitboxType::Projectile)
-		{	
+		{
 			_hitboxB->GetEntity().GetComponent<HealthComponent>()->Damage
 			(_hitboxA->GetEntity().GetComponent<DamageComponent>()->GetDamage());
 			_hitboxA->GetEntity().isDead = true;

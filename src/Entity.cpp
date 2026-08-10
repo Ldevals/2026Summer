@@ -1,9 +1,9 @@
 #include "Entity.h"
 #include "CameraManager.h"
-void Entity::AddComponent(Components* _component)
-{
-	components.push_back(_component);
-}
+//void Entity::AddComponent(Components* _component)
+//{
+//	components.push_back(_component);
+//}
 
 void Entity::UpdateCameraTarget()
 {
@@ -15,13 +15,13 @@ void Entity::UpdateCameraTarget()
 
 void ProjectileEntity::Init(sf::Vector2f _pos, sf::Angle _angle)
 {
-	GraphicsComponent* graph = new GraphicsComponent(*this, RESOURCES_PATH "bullet.png");
-	AddComponent(graph);
-	HitboxComponent* hitbox = new HitboxComponent(*this, HitboxType::Projectile, Team::Ally, false);
-	AddComponent(hitbox);
-	DamageComponent* damage = new DamageComponent(*this);
+	GraphicsComponent* graph = AddComponent<GraphicsComponent>(/**this,*/ RESOURCES_PATH "bullet.png");
+	//AddComponent(graph);
+	HitboxComponent* hitbox = AddComponent<HitboxComponent>(/**this*/ HitboxType::Projectile, Team::Ally, false);
+	//AddComponent(hitbox);
+	DamageComponent* damage = AddComponent<DamageComponent>(/**this*/);
 	damage->SetDamage(30);
-	AddComponent(damage);
+	//AddComponent(damage);
 	graph->GetSprite()->setPosition(_pos);
 	graph->GetSprite()->setRotation(_angle);
 	lifeTime = 5.0f;
@@ -49,20 +49,20 @@ void ProjectileEntity::SetDirection(sf::Vector2f _direction)
 
 void EnemyEntity::Init()
 {
-	GraphicsComponent* graph = new GraphicsComponent(*this, RESOURCES_PATH "player_idle_01.png");
-	AddComponent(graph);
+	GraphicsComponent* graph = AddComponent<GraphicsComponent>(/**this,*/ RESOURCES_PATH "player_idle_01.png");
+	//AddComponent(graph);
 	graph->SetSpriteSize(sf::Vector2i(192, 192));
 	speed = 50;
 
-	HitboxComponent* hitbox = new HitboxComponent(*this,HitboxType::Body,Team::Enemy, false);
-	AddComponent(hitbox);
+	HitboxComponent* hitbox = AddComponent<HitboxComponent>(/**this,*/ HitboxType::Body, Team::Enemy, false);
+	//AddComponent(hitbox);
 
-	HealthComponent* health = new HealthComponent(*this, 100.0f);
-	AddComponent(health);
+	HealthComponent* health = AddComponent<HealthComponent>(/**this,*/ 100.0f);
+	//AddComponent(health);
 
-	DamageComponent* damage = new DamageComponent(*this);
+	DamageComponent* damage = AddComponent<DamageComponent>(/**this*/);
 	damage->SetDamage(30);
-	AddComponent(damage);
+	//AddComponent(damage);
 	isActive = true;
 	isCameraTarget = false;
 
@@ -93,18 +93,23 @@ void EnemyEntity::Update(float _deltaTime)
 void PlayerEntity::Init()
 {
 	std::cout << "initPLayer" << std::endl;
-	GraphicsComponent* graph = new GraphicsComponent(*this, RESOURCES_PATH "tree_01.png");
+	GraphicsComponent* graph = AddComponent<GraphicsComponent>(/**this*/ RESOURCES_PATH "tree_01.png");
 	graph->SetSpriteSize(sf::Vector2i(192, 256));
-	AddComponent(graph);
+	//AddComponent(graph);
 
-	AnimationComponent* anim = new AnimationComponent(*this, 8);
-	AddComponent(anim);
+	AnimationComponent* anim = AddComponent<AnimationComponent>(/**this*/ 8);
+	//AddComponent(anim);
 
-	ControllerComponent* controller = new ControllerComponent(*this);
-	AddComponent(controller);
+	ControllerComponent* controller = AddComponent<ControllerComponent>(/**this*/);
+	//AddComponent(controller);
 
-	HitboxComponent* hitbox = new HitboxComponent(*this, HitboxType::Body, Team::Ally, false);
-	AddComponent(hitbox);
+	HitboxComponent* hitbox = AddComponent<HitboxComponent>(/**this*/ HitboxType::Body, Team::Ally, false);
+	//AddComponent(hitbox);
+
+	HealthComponent* health = AddComponent<HealthComponent>(/**this,*/ 100);
+	health->SetCooldownImunity(true);
+	health->SetCooldownImunityTime(1.0f);
+	//AddComponent(health);
 
 	Event event;
 	event.eventType = EventType::VehicleHasArrived;
@@ -142,13 +147,13 @@ sf::Vector2f* PlayerEntity::GetPos()
 
 void CellEntity::Init(bool _hasCollider)
 {
-	GraphicsComponent* graph = new GraphicsComponent(*this, RESOURCES_PATH "Tileset Grass.png");
+	GraphicsComponent* graph = AddComponent<GraphicsComponent>(/**this,*/ RESOURCES_PATH "Tileset Grass.png");
 
 	graph->SetSpriteSize(sf::Vector2i(32, 32));
 
 	sf::IntRect textureRect(sf::Vector2i(std::rand() % 8 * 32, std::rand() % 8 * 32), sf::Vector2i(32, 32));
 	graph->GetSprite()->setTextureRect(textureRect);
-	AddComponent(graph);
+	//AddComponent(graph);
 	if (_hasCollider)
 	{
 		//HitboxComponent* hitbox = new HitboxComponent(*this,false);
@@ -163,12 +168,12 @@ void MainVehicleEntity::Init(sf::Vector2i _mapSize)
 	int cellSize = 32;
 	sf::Vector2f spawnPoint(_mapSize.x * cellSize / 2, _mapSize.y * cellSize);
 	stopingPoint = spawnPoint.y / 2;
-	GraphicsComponent* graph = new GraphicsComponent(*this, RESOURCES_PATH "vehicle.png");
+	GraphicsComponent* graph = AddComponent<GraphicsComponent>(/**this,*/ RESOURCES_PATH "vehicle.png");
 	graph->GetSprite()->setPosition(spawnPoint);
-	AddComponent(graph);
+	//AddComponent(graph);
 	HitboxComponent* hitbox = new HitboxComponent(*this, HitboxType::Body, Team::Ally, true);
-	AddComponent(hitbox);
-	movingSpeed = 20;
+	//AddComponent(hitbox);
+	movingSpeed = 100;
 	isStopped = false;
 	isActive = true;
 	isCameraTarget = true;
@@ -190,4 +195,3 @@ void MainVehicleEntity::Update(float _deltaTime)
 		EventManager::GetInstance()->Broadcast(event);
 	}
 }
-	

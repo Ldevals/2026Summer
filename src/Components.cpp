@@ -127,6 +127,11 @@ void WeaponComponent::Init(Entity& _entity)
 
 void WeaponComponent::Update(float _dt)
 {
+	if (!owner)
+	{
+		GetEntity().isDead = true;
+		return;
+	}
 	sprite->setPosition(owner->GetComponent<GraphicsComponent>()->GetSpritePosition());
 	if (cooldown > 0)
 	{
@@ -136,6 +141,11 @@ void WeaponComponent::Update(float _dt)
 
 void WeaponComponent::Inputs(const std::vector<sf::Event>& _events, sf::Vector2i _mousePos)
 {
+	if (!owner)
+	{
+		GetEntity().isDead = true;
+		return;
+	}
 	sf::Vector2f mouseWorldPos = CameraManager::GetInstance()->GetWorldPos(_mousePos);
 	angle = sf::radians(angleToCursor(sf::Vector2i(mouseWorldPos))).wrapUnsigned();
 	sprite->setRotation(angle);
@@ -177,7 +187,7 @@ void HitboxComponent::Init()
 {
 	isSpriteHitbox = true;
 	HitboxManager::GetInstance()->AddHitbox(this);
- isFriendlyColliding =true;
+	isFriendlyColliding = true;
 }
 
 void HitboxComponent::Move(sf::Vector2f _correction)
@@ -197,7 +207,6 @@ sf::FloatRect HitboxComponent::GetHitbox()
 {
 	if (isSpriteHitbox)
 	{
-		std::cout << "name  " << GetEntity().name << std::endl;
 		return GetEntity().GetComponent<GraphicsComponent>()->GetSprite()->getGlobalBounds();
 	}
 
@@ -231,7 +240,17 @@ bool HitboxComponent::GetStatic()
 
 void HealthComponent::Damage(float _damage)
 {
-	health -= _damage;
+	if (hasCooldownDamage)
+	{
+		if (imunityTime <= 0.0f)
+		{
+			health -= _damage;
+		}
+	}
+	else
+	{
+		health -= _damage;
+	}
 	if (health <= 0.0f)
 	{
 		GetEntity().isDead = true;
@@ -241,5 +260,21 @@ void HealthComponent::Damage(float _damage)
 
 float HealthComponent::GetHealth()
 {
- return health;
+	return health;
+}
+
+void HealthComponent::SetCooldownImunity(bool _hasCooldownDamage)
+{
+	hasCooldownDamage = _hasCooldownDamage;
+}
+
+void HealthComponent::SetCooldownImunityTime(float _time)
+{
+	imunityTime = _time;
+}
+
+void HealthComponent::Update(float _deltaTime)
+{
+	if (hasCooldownDamage && imunityTime > 0.0f)
+		imunityTime -= _deltaTime;
 }

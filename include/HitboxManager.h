@@ -7,6 +7,7 @@ public:
 	static void CreateInstance();
 	static HitboxManager* GetInstance();
 	void AddHitbox(HitboxComponent* _hitbox);
+	void RemoveHitbox(HitboxComponent* _hitbox);
 	void Update();
 
 private:

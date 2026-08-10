@@ -8,21 +8,40 @@ class Entity
 {
 public:
 	Entity(std::string _name) : name(_name) {}
-
+	virtual ~Entity() = default;
 	virtual void Update(float _deltaTime) {}
 	/*virtual void Input();
 	virtual void Render(sf::RenderTarget& _window);*/
 
 
-	void AddComponent(Components* _component);
-	const std::vector<Components*>& GetComponents() const { return components; }
+	//void AddComponent(Components* _component);
+	template<typename T, typename... Args>
+	T* AddComponent(Args&&... args)
+	{
+		auto component = std::make_unique<T>(*this, std::forward<Args>(args)...);
+
+		T* result = component.get();
+
+		components.push_back(std::move(component));
+
+		return result;
+	}
+
+	const std::vector<std::unique_ptr<Components>>& GetComponents() const
+	{
+		return components;
+	}
 	void UpdateCameraTarget();
+
 	template<typename T>
 	T* GetComponent() const
 	{
-		for (Components* component : components)
-			if (T* typedComponent = dynamic_cast<T*>(component))
+		for (const auto& component : components)
+		{
+			if (T* typedComponent = dynamic_cast<T*>(component.get()))
 				return typedComponent;
+		}
+
 		return nullptr;
 	}
 
@@ -34,7 +53,7 @@ public:
 private:
 	//sf::Texture texture;
 	sf::Vector2f velocity;
-	std::vector<Components*> components;
+	std::vector<std::unique_ptr<Components>> components;
 };
 
 class ProjectileEntity : public Entity
