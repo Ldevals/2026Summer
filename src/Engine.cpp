@@ -47,6 +47,7 @@ bool Engine::Initialize(sf::RenderTarget* _window)
 	WeaponComponent* weapon = weaponEntity->AddComponent<WeaponComponent>(/**weaponEntity,*/ playerEntity);
 	//weaponEntity->AddComponent(weapon);
 	weaponEntity->isCameraTarget = false;
+	weaponEntity->SetParent(playerEntity);
 
 	MainVehicleEntity* vehicle = new MainVehicleEntity("forteress", { 20,20 });
 	m_entities.push_back(vehicle);

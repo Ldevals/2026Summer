@@ -253,7 +253,7 @@ void HealthComponent::Damage(float _damage)
 	}
 	if (health <= 0.0f)
 	{
-		GetEntity().isDead = true;
+		GetEntity().SetDead();
 	}
 }
 

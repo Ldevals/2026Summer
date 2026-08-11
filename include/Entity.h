@@ -13,7 +13,13 @@ public:
 	/*virtual void Input();
 	virtual void Render(sf::RenderTarget& _window);*/
 
-
+	void SetParent(Entity* _parent) 
+	{ 
+		parent = _parent;
+		_parent->children.push_back(this);
+	
+	}
+	
 	//void AddComponent(Components* _component);
 	template<typename T, typename... Args>
 	T* AddComponent(Args&&... args)
@@ -45,6 +51,18 @@ public:
 		return nullptr;
 	}
 
+	void SetDead()
+	{
+		std::cout << "dead:  " << name << std::endl;
+		isDead = true;
+		for (Entity* it : children)
+		{
+			std::cout << "child killed:  " << it->name << std::endl;
+			it->isDead = true;
+			it->isActive = false;
+		}
+	}
+
 	std::string name;
 	bool isDead = false;
 	bool isActive = true;
@@ -54,6 +72,8 @@ private:
 	//sf::Texture texture;
 	sf::Vector2f velocity;
 	std::vector<std::unique_ptr<Components>> components;
+	Entity* parent = nullptr;
+	std::vector<Entity*> children;
 };
 
 class ProjectileEntity : public Entity
