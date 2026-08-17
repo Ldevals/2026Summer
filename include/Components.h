@@ -174,6 +174,7 @@ private:
 	float health;
 	bool hasCooldownDamage;
 	float imunityTime;
+	float imunityTimer;
 };
 
 class ProjectileComponent : public Components

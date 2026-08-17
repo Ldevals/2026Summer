@@ -79,7 +79,6 @@ void HitboxManager::ResolveBodyToBody(HitboxComponent* _hitboxA, HitboxComponent
 	else
 	{
 		//faire les degats vers le joueur
-		std::cout << _hitboxA->GetEntity().name << "  " << _hitboxB->GetEntity().name << std::endl;
 		if (_hitboxA->GetTeam() == Team::Enemy)
 		{
 			_hitboxB->GetEntity().GetComponent<HealthComponent>()->Damage

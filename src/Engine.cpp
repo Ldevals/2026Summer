@@ -29,8 +29,8 @@ bool Engine::Initialize(sf::RenderTarget* _window)
 	RessourceManager::CreateInstance();
 	EventManager::CreateInstance();
 	CameraManager::CreateInstance(_window);
-
-	MapManager::GetInstance()->GenerateMap({ 20,20 });
+	sf::Vector2i mapSize(100, 100);
+	MapManager::GetInstance()->GenerateMap(mapSize);
 
 	// TODO create 1 "Player" entity and 2 "Mob" entities.
 	// Use "player_idle_01.png" (you can find it in CreajeuxEngine/WorkingDirectory) for graphics.
@@ -49,7 +49,7 @@ bool Engine::Initialize(sf::RenderTarget* _window)
 	weaponEntity->isCameraTarget = false;
 	weaponEntity->SetParent(playerEntity);
 
-	MainVehicleEntity* vehicle = new MainVehicleEntity("forteress", { 20,20 });
+	MainVehicleEntity* vehicle = new MainVehicleEntity("forteress", mapSize);
 	m_entities.push_back(vehicle);
 	CameraManager::GetInstance()->SetTarget(&vehicle->position);
 

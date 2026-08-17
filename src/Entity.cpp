@@ -171,7 +171,11 @@ void MainVehicleEntity::Init(sf::Vector2i _mapSize)
 	GraphicsComponent* graph = AddComponent<GraphicsComponent>(/**this,*/ RESOURCES_PATH "vehicle.png");
 	graph->GetSprite()->setPosition(spawnPoint);
 	//AddComponent(graph);
-	HitboxComponent* hitbox = new HitboxComponent(*this, HitboxType::Body, Team::Ally, true);
+	HitboxComponent* hitbox = AddComponent<HitboxComponent>( HitboxType::Body, Team::Ally, true);
+
+	HealthComponent* health = AddComponent<HealthComponent>(1000);
+	health->SetCooldownImunity(true);
+	health->SetCooldownImunityTime(1.0f);
 	//AddComponent(hitbox);
 	movingSpeed = 100;
 	isStopped = false;

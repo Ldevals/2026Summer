@@ -242,9 +242,10 @@ void HealthComponent::Damage(float _damage)
 {
 	if (hasCooldownDamage)
 	{
-		if (imunityTime <= 0.0f)
+		if (imunityTimer <= 0.0f)
 		{
 			health -= _damage;
+			imunityTimer = imunityTime;
 		}
 	}
 	else
@@ -275,6 +276,6 @@ void HealthComponent::SetCooldownImunityTime(float _time)
 
 void HealthComponent::Update(float _deltaTime)
 {
-	if (hasCooldownDamage && imunityTime > 0.0f)
-		imunityTime -= _deltaTime;
+	if (hasCooldownDamage && imunityTimer > 0.0f)
+		imunityTimer -= _deltaTime;
 }
